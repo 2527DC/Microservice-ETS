@@ -1,0 +1,11 @@
+{
+  "name": "service-booking",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.0",
+    "db": "file:../db"
+  }
+}
