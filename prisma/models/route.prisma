@@ -1,0 +1,10 @@
+// ==============================================
+// Prisma Schema for: route.prisma
+// Generated on Mon Oct 27 21:02:45 IST 2025
+// ==============================================
+
+model Route {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

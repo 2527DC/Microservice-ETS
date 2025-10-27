@@ -120,19 +120,310 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
-  id: 'id',
+exports.Prisma.AdminScalarFieldEnum = {
+  admin_id: 'admin_id',
   name: 'name',
   email: 'email',
+  phone: 'phone',
   password: 'password',
-  address: 'address'
+  role_id: 'role_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.BookingScalarFieldEnum = {
+  booking_id: 'booking_id',
+  tenant_id: 'tenant_id',
+  employee_id: 'employee_id',
+  employee_code: 'employee_code',
+  shift_id: 'shift_id',
+  team_id: 'team_id',
+  booking_date: 'booking_date',
+  pickup_latitude: 'pickup_latitude',
+  pickup_longitude: 'pickup_longitude',
+  pickup_location: 'pickup_location',
+  drop_latitude: 'drop_latitude',
+  drop_longitude: 'drop_longitude',
+  drop_location: 'drop_location',
+  status: 'status',
+  reason: 'reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CutoffScalarFieldEnum = {
+  tenant_id: 'tenant_id',
+  booking_cutoff: 'booking_cutoff',
+  cancel_cutoff: 'cancel_cutoff',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.DriverScalarFieldEnum = {
+  driver_id: 'driver_id',
+  vendor_id: 'vendor_id',
+  name: 'name',
+  code: 'code',
+  email: 'email',
+  phone: 'phone',
+  gender: 'gender',
+  password: 'password',
+  date_of_birth: 'date_of_birth',
+  date_of_joining: 'date_of_joining',
+  permanent_address: 'permanent_address',
+  current_address: 'current_address',
+  photo_url: 'photo_url',
+  bg_verify_status: 'bg_verify_status',
+  bg_expiry_date: 'bg_expiry_date',
+  bg_verify_url: 'bg_verify_url',
+  police_verify_status: 'police_verify_status',
+  police_expiry_date: 'police_expiry_date',
+  police_verify_url: 'police_verify_url',
+  medical_verify_status: 'medical_verify_status',
+  medical_expiry_date: 'medical_expiry_date',
+  medical_verify_url: 'medical_verify_url',
+  training_verify_status: 'training_verify_status',
+  training_expiry_date: 'training_expiry_date',
+  training_verify_url: 'training_verify_url',
+  eye_verify_status: 'eye_verify_status',
+  eye_expiry_date: 'eye_expiry_date',
+  eye_verify_url: 'eye_verify_url',
+  license_number: 'license_number',
+  license_expiry_date: 'license_expiry_date',
+  license_url: 'license_url',
+  badge_number: 'badge_number',
+  badge_expiry_date: 'badge_expiry_date',
+  badge_url: 'badge_url',
+  alt_govt_id_number: 'alt_govt_id_number',
+  alt_govt_id_type: 'alt_govt_id_type',
+  alt_govt_id_url: 'alt_govt_id_url',
+  induction_date: 'induction_date',
+  induction_url: 'induction_url',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.EmployeeScalarFieldEnum = {
+  employee_id: 'employee_id',
+  tenant_id: 'tenant_id',
+  role_id: 'role_id',
+  name: 'name',
+  employee_code: 'employee_code',
+  email: 'email',
+  password: 'password',
+  team_id: 'team_id',
+  phone: 'phone',
+  alternate_phone: 'alternate_phone',
+  special_needs: 'special_needs',
+  special_needs_start_date: 'special_needs_start_date',
+  special_needs_end_date: 'special_needs_end_date',
+  address: 'address',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  gender: 'gender',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  permission_id: 'permission_id',
+  module: 'module',
+  action: 'action',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PolicyScalarFieldEnum = {
+  policy_id: 'policy_id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  is_system_policy: 'is_system_policy',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PolicyPermissionScalarFieldEnum = {
+  policy_id: 'policy_id',
+  permission_id: 'permission_id'
+};
+
+exports.Prisma.RoleScalarFieldEnum = {
+  role_id: 'role_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  tenant_id: 'tenant_id',
+  is_system_role: 'is_system_role',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RolePolicyScalarFieldEnum = {
+  role_id: 'role_id',
+  policy_id: 'policy_id'
+};
+
+exports.Prisma.RouteScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
-  details: 'details',
-  createdAt: 'createdAt'
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RouteManagementBookingScalarFieldEnum = {
+  id: 'id',
+  route_id: 'route_id',
+  booking_id: 'booking_id',
+  stop_order: 'stop_order',
+  estimated_pickup_time: 'estimated_pickup_time',
+  estimated_drop_time: 'estimated_drop_time',
+  distance_from_previous: 'distance_from_previous',
+  cumulative_distance: 'cumulative_distance',
+  created_at: 'created_at'
+};
+
+exports.Prisma.RouteManagementScalarFieldEnum = {
+  route_id: 'route_id',
+  tenant_id: 'tenant_id',
+  shift_id: 'shift_id',
+  route_code: 'route_code',
+  status: 'status',
+  planned_distance_km: 'planned_distance_km',
+  planned_duration_minutes: 'planned_duration_minutes',
+  actual_distance_km: 'actual_distance_km',
+  actual_duration_minutes: 'actual_duration_minutes',
+  actual_start_time: 'actual_start_time',
+  actual_end_time: 'actual_end_time',
+  optimized_polyline: 'optimized_polyline',
+  assigned_vendor_id: 'assigned_vendor_id',
+  assigned_vehicle_id: 'assigned_vehicle_id',
+  assigned_driver_id: 'assigned_driver_id',
+  total_distance_km: 'total_distance_km',
+  total_time_minutes: 'total_time_minutes',
+  is_active: 'is_active',
+  version: 'version',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ShiftScalarFieldEnum = {
+  shift_id: 'shift_id',
+  tenant_id: 'tenant_id',
+  shift_code: 'shift_code',
+  log_type: 'log_type',
+  shift_time: 'shift_time',
+  pickup_type: 'pickup_type',
+  gender: 'gender',
+  waiting_time_minutes: 'waiting_time_minutes',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.TeamScalarFieldEnum = {
+  team_id: 'team_id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.TenantScalarFieldEnum = {
+  tenant_id: 'tenant_id',
+  name: 'name',
+  address: 'address',
+  longitude: 'longitude',
+  latitude: 'latitude',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.VehicleScalarFieldEnum = {
+  vehicle_id: 'vehicle_id',
+  vehicle_type_id: 'vehicle_type_id',
+  vendor_id: 'vendor_id',
+  driver_id: 'driver_id',
+  rc_number: 'rc_number',
+  rc_expiry_date: 'rc_expiry_date',
+  description: 'description',
+  puc_number: 'puc_number',
+  puc_expiry_date: 'puc_expiry_date',
+  puc_url: 'puc_url',
+  fitness_number: 'fitness_number',
+  fitness_expiry_date: 'fitness_expiry_date',
+  fitness_url: 'fitness_url',
+  tax_receipt_number: 'tax_receipt_number',
+  tax_receipt_date: 'tax_receipt_date',
+  tax_receipt_url: 'tax_receipt_url',
+  insurance_number: 'insurance_number',
+  insurance_expiry_date: 'insurance_expiry_date',
+  insurance_url: 'insurance_url',
+  permit_number: 'permit_number',
+  permit_expiry_date: 'permit_expiry_date',
+  permit_url: 'permit_url',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.VehicleTypeScalarFieldEnum = {
+  vehicle_type_id: 'vehicle_type_id',
+  vendor_id: 'vendor_id',
+  name: 'name',
+  description: 'description',
+  seats: 'seats',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.VendorScalarFieldEnum = {
+  vendor_id: 'vendor_id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  vendor_code: 'vendor_code',
+  email: 'email',
+  phone: 'phone',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.VendorUserScalarFieldEnum = {
+  vendor_user_id: 'vendor_user_id',
+  tenant_id: 'tenant_id',
+  vendor_id: 'vendor_id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  password: 'password',
+  role_id: 'role_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.WeekoffConfigScalarFieldEnum = {
+  weekoff_id: 'weekoff_id',
+  employee_id: 'employee_id',
+  monday: 'monday',
+  tuesday: 'tuesday',
+  wednesday: 'wednesday',
+  thursday: 'thursday',
+  friday: 'friday',
+  saturday: 'saturday',
+  sunday: 'sunday',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.SortOrder = {
@@ -145,10 +436,71 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.BookingStatusEnum = exports.$Enums.BookingStatusEnum = {
+  Pending: 'Pending',
+  Confirmed: 'Confirmed',
+  Ongoing: 'Ongoing',
+  Completed: 'Completed',
+  Cancelled: 'Cancelled',
+  NoShow: 'NoShow'
+};
+
+exports.GenderEnum = exports.$Enums.GenderEnum = {
+  Male: 'Male',
+  Female: 'Female',
+  Other: 'Other'
+};
+
+exports.VerificationStatusEnum = exports.$Enums.VerificationStatusEnum = {
+  Pending: 'Pending',
+  Approved: 'Approved',
+  Rejected: 'Rejected'
+};
+
+exports.RouteManagementStatusEnum = exports.$Enums.RouteManagementStatusEnum = {
+  Planned: 'Planned',
+  Assigned: 'Assigned',
+  InProgress: 'InProgress',
+  Completed: 'Completed',
+  Cancelled: 'Cancelled'
+};
+
+exports.ShiftLogTypeEnum = exports.$Enums.ShiftLogTypeEnum = {
+  IN: 'IN',
+  OUT: 'OUT'
+};
+
+exports.PickupTypeEnum = exports.$Enums.PickupTypeEnum = {
+  Pickup: 'Pickup',
+  Nodal: 'Nodal'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Booking: 'Booking'
+  Admin: 'Admin',
+  Booking: 'Booking',
+  Cutoff: 'Cutoff',
+  Driver: 'Driver',
+  Employee: 'Employee',
+  Permission: 'Permission',
+  Policy: 'Policy',
+  PolicyPermission: 'PolicyPermission',
+  Role: 'Role',
+  RolePolicy: 'RolePolicy',
+  Route: 'Route',
+  RouteManagementBooking: 'RouteManagementBooking',
+  RouteManagement: 'RouteManagement',
+  Shift: 'Shift',
+  Team: 'Team',
+  Tenant: 'Tenant',
+  Vehicle: 'Vehicle',
+  VehicleType: 'VehicleType',
+  Vendor: 'Vendor',
+  VendorUser: 'VendorUser',
+  WeekoffConfig: 'WeekoffConfig'
 };
 
 /**

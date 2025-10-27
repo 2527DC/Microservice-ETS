@@ -7,20 +7,3 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  address   String
-  bookings  Booking[]
-}
-
-model Booking {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  details   String
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-}

@@ -1,0 +1,81 @@
+// Permission Model
+model Permission {
+  permission_id Int      @id @default(autoincrement())
+  module        String   @db.VarChar(100)
+  action        String   @db.VarChar(50)
+  description   String?  @db.VarChar(255)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  policy_permissions PolicyPermission[]
+
+  @@unique([module, action], name: "uq_permission_module_action")
+  @@index([permission_id])
+  @@map("iam_permissions")
+}
+
+// Policy Model
+model Policy {
+  policy_id        Int      @id @default(autoincrement())
+  tenant_id        String?  @db.VarChar(50)
+  name             String   @db.VarChar(100)
+  description      String?  @db.VarChar(255)
+  is_active        Boolean  @default(true)
+  is_system_policy Boolean  @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  tenant              Tenant?            @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  policy_permissions  PolicyPermission[]
+  role_policies       RolePolicy[]
+
+  @@unique([tenant_id, name], name: "uq_policy_tenant_name")
+  @@index([tenant_id])
+  @@map("iam_policies")
+}
+
+// Policy-Permission Join Table
+model PolicyPermission {
+  policy_id     Int
+  permission_id Int
+
+  policy     Policy     @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
+  permission Permission @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+
+  @@id([policy_id, permission_id])
+  @@map("iam_policy_permission")
+}
+
+// Role Model
+model Role {
+  role_id        Int      @id @default(autoincrement())
+  name           String   @db.VarChar(100)
+  description    String?  @db.VarChar(255)
+  is_active      Boolean  @default(true)
+  tenant_id      String?  @db.VarChar(50)
+  is_system_role Boolean  @default(false)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  tenant        Tenant?       @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  role_policies RolePolicy[]
+  admins        Admin[]
+  vendor_users  VendorUser[]
+  employees     Employee[]
+
+  @@unique([tenant_id, name], name: "uq_role_tenant_name")
+  @@map("iam_roles")
+}
+
+// Role-Policy Join Table
+model RolePolicy {
+  role_id   Int
+  policy_id Int
+
+  role   Role   @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
+  policy Policy @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
+
+  @@id([role_id, policy_id])
+  @@map("iam_role_policy")
+}

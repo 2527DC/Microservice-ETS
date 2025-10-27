@@ -1,0 +1,18 @@
+// RouteManagementBooking Model
+model RouteManagementBooking {
+  id                     Int      @id @default(autoincrement())
+  route_id               String   @db.VarChar(100)
+  booking_id             Int
+  stop_order             Int
+  estimated_pickup_time  String?  @db.VarChar(10)
+  estimated_drop_time    String?  @db.VarChar(10)
+  distance_from_previous Float?
+  cumulative_distance    Float?
+  created_at             DateTime @default(now())
+
+  route_management RouteManagement @relation(fields: [route_id], references: [route_id], onDelete: Cascade)
+
+  @@unique([route_id, booking_id], name: "uq_route_management_booking_unique")
+  @@index([id])
+  @@map("route_management_bookings")
+}
