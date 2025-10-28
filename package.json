@@ -2,19 +2,20 @@
   "name": "microservice-root",
   "private": true,
   "prisma": {
-    "schema": "./prisma"          
+    "schema": "./prisma"
   },
   "scripts": {
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
     "studio": "npx prisma studio",
-    "dev:user": "node packages/service-user/src/index.js",
+    "dev:user": "nodemon packages/service-user/src/index.js",
     "dev:booking": "node packages/service-booking/src/index.js"
   },
   "devDependencies": {
     "prisma": "^6.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.0.0"
+    "nodemon": "^3.1.10",
+    "zod": "^4.1.12"
   }
 }

@@ -4,9 +4,11 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
-    "db": "file:../db",
+    "@shared/db": "file:../../shared/db",
+    "@shared/middleware": "file:../../shared/middleware",
     "dotenv": "^16.4.0",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "module-alias": "^2.2.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
