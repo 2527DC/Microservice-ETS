@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 // import morgan from "morgan";
 // import rateLimit from "express-rate-limit";
 
-import IAM from "./routes/iam.routes.js";
+import rootRoute from "./routes/index.route.js";
 
 // Load environment variables
 dotenv.config();
@@ -78,7 +78,9 @@ app.get("/health", (req, res) => {
   });
 });
 
-app.use("/api", IAM);
+app.use("/api", rootRoute);
+
+// app.use("/api", IAM);
 
 // API routes
 // app.use("/api/v1/users", router);
