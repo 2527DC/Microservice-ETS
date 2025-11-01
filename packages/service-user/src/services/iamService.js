@@ -31,7 +31,7 @@ export class IAMService {
           module: data.module,
           action: data.action,
           description: data.description,
-          is_active: data.is_active,
+          is_active: data.is_active !== undefined ? data.is_active : true,
         },
       });
     } catch (error) {
@@ -82,7 +82,7 @@ export class IAMService {
             },
           },
           skip,
-          take: limit,
+          take: parseInt(limit),
           orderBy: { [sort_by]: sort_order },
         }),
         prisma.permission.count({
@@ -245,7 +245,7 @@ export class IAMService {
       if (permission_ids && permission_ids.length > 0) {
         const permissions = await prisma.permission.findMany({
           where: {
-            permission_id: { in: permission_ids },
+            permission_id: { in: permission_ids.map((id) => parseInt(id)) },
             is_active: true,
           },
         });
@@ -264,7 +264,7 @@ export class IAMService {
             permission_ids.length > 0 && {
               policy_permissions: {
                 create: permission_ids.map((permission_id) => ({
-                  permission_id,
+                  permission_id: parseInt(permission_id),
                 })),
               },
             }),
@@ -321,7 +321,7 @@ export class IAMService {
           where: {
             ...where,
             ...searchCondition,
-            ...(tenant_id && { tenant_id }),
+            ...(tenant_id && { tenant_id: parseInt(tenant_id) }),
             ...(is_active !== undefined && { is_active: is_active === "true" }),
           },
           include: {
@@ -339,14 +339,14 @@ export class IAMService {
             },
           },
           skip,
-          take: limit,
+          take: parseInt(limit),
           orderBy: { [sort_by]: sort_order },
         }),
         prisma.policy.count({
           where: {
             ...where,
             ...searchCondition,
-            ...(tenant_id && { tenant_id }),
+            ...(tenant_id && { tenant_id: parseInt(tenant_id) }),
             ...(is_active !== undefined && { is_active: is_active === "true" }),
           },
         }),
@@ -447,7 +447,7 @@ export class IAMService {
             // Validate permissions exist
             const permissions = await tx.permission.findMany({
               where: {
-                permission_id: { in: permission_ids },
+                permission_id: { in: permission_ids.map((id) => parseInt(id)) },
                 is_active: true,
               },
             });
@@ -461,7 +461,7 @@ export class IAMService {
             await tx.policyPermission.createMany({
               data: permission_ids.map((permission_id) => ({
                 policy_id: parseInt(policy_id),
-                permission_id,
+                permission_id: parseInt(permission_id),
               })),
             });
           }
@@ -557,7 +557,7 @@ export class IAMService {
       if (policy_ids && policy_ids.length > 0) {
         const policies = await prisma.policy.findMany({
           where: {
-            policy_id: { in: policy_ids },
+            policy_id: { in: policy_ids.map((id) => parseInt(id)) },
             is_active: true,
           },
         });
@@ -576,7 +576,7 @@ export class IAMService {
             policy_ids.length > 0 && {
               role_policies: {
                 create: policy_ids.map((policy_id) => ({
-                  policy_id,
+                  policy_id: parseInt(policy_id),
                 })),
               },
             }),
@@ -651,7 +651,7 @@ export class IAMService {
       const prismaWhere = {
         ...where,
         ...searchCondition,
-        ...(tenant_id && { tenant_id }),
+        ...(tenant_id && { tenant_id: parseInt(tenant_id) }),
         ...(is_active !== undefined && { is_active }),
       };
 
@@ -787,7 +787,7 @@ export class IAMService {
             // Validate policies exist
             const policies = await tx.policy.findMany({
               where: {
-                policy_id: { in: policy_ids },
+                policy_id: { in: policy_ids.map((id) => parseInt(id)) },
                 is_active: true,
               },
             });
@@ -801,7 +801,7 @@ export class IAMService {
             await tx.rolePolicy.createMany({
               data: policy_ids.map((policy_id) => ({
                 role_id: parseInt(role_id),
-                policy_id,
+                policy_id: parseInt(policy_id),
               })),
             });
           }

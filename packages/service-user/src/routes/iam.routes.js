@@ -1,4 +1,3 @@
-// routes/iamRoutes.js
 import express from "express";
 import {
   validateCommon,
@@ -7,7 +6,7 @@ import {
   validateRole,
   sanitizeData,
 } from "@shared/middleware/validationMiddleware.js";
-import { IAMController } from "../controller/iam.controller.js"; // Fixed path - note 'controllers' plural
+import { IAMController } from "../controller/iam.controller.js"; // Fixed import path
 
 const router = express.Router();
 
@@ -45,7 +44,7 @@ router.delete(
 router.post(
   "/policies",
   validatePolicy.create,
-  sanitizeData(["name", "description", "permissions", "is_active"]),
+  sanitizeData(["name", "description", "permission_ids", "is_active"]),
   IAMController.createPolicy
 );
 
@@ -61,7 +60,7 @@ router.put(
   "/policies/:policy_id",
   validatePolicy.id,
   validatePolicy.update,
-  sanitizeData(["name", "description", "permissions", "is_active"]),
+  sanitizeData(["name", "description", "permission_ids", "is_active"]),
   IAMController.updatePolicy
 );
 
@@ -75,7 +74,7 @@ router.delete(
 router.post(
   "/roles",
   validateRole.create,
-  sanitizeData(["name", "description", "policies", "is_active"]),
+  sanitizeData(["name", "description", "policy_ids", "is_active"]),
   IAMController.createRole
 );
 
@@ -87,7 +86,7 @@ router.put(
   "/roles/:role_id",
   validateRole.id,
   validateRole.update,
-  sanitizeData(["name", "description", "policies", "is_active"]),
+  sanitizeData(["name", "description", "policy_ids", "is_active"]),
   IAMController.updateRole
 );
 

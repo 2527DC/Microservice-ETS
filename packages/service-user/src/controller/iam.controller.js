@@ -11,7 +11,7 @@ export class IAMController {
         message: "Permission created successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -24,7 +24,7 @@ export class IAMController {
         pagination: result.pagination,
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -41,7 +41,7 @@ export class IAMController {
       }
       res.json({ success: true, data: permission });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -57,7 +57,7 @@ export class IAMController {
         message: "Permission updated successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -69,7 +69,7 @@ export class IAMController {
         message: "Permission deleted successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -83,7 +83,7 @@ export class IAMController {
         message: "Policy created successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -96,7 +96,7 @@ export class IAMController {
         pagination: result.pagination,
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -111,7 +111,7 @@ export class IAMController {
       }
       res.json({ success: true, data: policy });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -127,7 +127,7 @@ export class IAMController {
         message: "Policy updated successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -139,7 +139,7 @@ export class IAMController {
         message: "Policy deleted successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -153,7 +153,7 @@ export class IAMController {
         message: "Role created successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -166,7 +166,7 @@ export class IAMController {
         pagination: result.pagination,
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -181,7 +181,7 @@ export class IAMController {
       }
       res.json({ success: true, data: role });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -194,7 +194,7 @@ export class IAMController {
         message: "Role updated successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
@@ -206,13 +206,38 @@ export class IAMController {
         message: "Role deleted successfully",
       });
     } catch (error) {
-      this.handleError(res, error);
+      IAMController.handleError(res, error); // Fixed: Use IAMController instead of this
     }
   }
 
   // Generic error handler
   static handleError(res, error) {
     console.error("Controller error:", error);
+
+    // Handle custom service errors
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        success: false,
+        error: "Validation Error",
+        message: error.message,
+      });
+    }
+
+    if (error.name === "NotFoundError") {
+      return res.status(404).json({
+        success: false,
+        error: "Not Found",
+        message: error.message,
+      });
+    }
+
+    if (error.name === "DatabaseError") {
+      return res.status(500).json({
+        success: false,
+        error: "Database Error",
+        message: error.message,
+      });
+    }
 
     // Prisma errors
     if (error.code === "P2002") {
@@ -236,7 +261,9 @@ export class IAMController {
       success: false,
       error: "Internal server error",
       message:
-        process.env.NODE_ENV === "development" ? error.message : undefined,
+        process.env.NODE_ENV === "development"
+          ? error.message
+          : "Something went wrong",
     });
   }
 }

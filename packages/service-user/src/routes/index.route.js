@@ -4,6 +4,8 @@ import IAM from "./iam.routes.js";
 
 const router = express.Router();
 
-router.get("/auth", authRoute);
-router.get("/iam", IAM);
+// Mount the route modules
+router.use("/auth", authRoute);
+router.use("/iam", IAM);
+
 export default router;

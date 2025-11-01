@@ -1,0 +1,57 @@
+// Driver Model
+model Driver {
+  driver_id                Int                       @id @default(autoincrement())
+  vendor_id                Int
+  name                     String                    @db.VarChar(150)
+  code                     String                    @db.VarChar(50)
+  email                    String                    @db.VarChar(150)
+  phone                    String                    @db.VarChar(20)
+  gender                   GenderEnum?
+  password                 String                    @db.VarChar(255)
+  date_of_birth            DateTime?                 @db.Date
+  date_of_joining          DateTime?                 @db.Date
+  permanent_address        String?                   @db.Text
+  current_address          String?                   @db.Text
+  photo_url                String?                   @db.Text
+  bg_verify_status         VerificationStatusEnum?
+  bg_expiry_date           DateTime?                 @db.Date
+  bg_verify_url            String?                   @db.Text
+  police_verify_status     VerificationStatusEnum?
+  police_expiry_date       DateTime?                 @db.Date
+  police_verify_url        String?                   @db.Text
+  medical_verify_status    VerificationStatusEnum?
+  medical_expiry_date      DateTime?                 @db.Date
+  medical_verify_url       String?                   @db.Text
+  training_verify_status   VerificationStatusEnum?
+  training_expiry_date     DateTime?                 @db.Date
+  training_verify_url      String?                   @db.Text
+  eye_verify_status        VerificationStatusEnum?
+  eye_expiry_date          DateTime?                 @db.Date
+  eye_verify_url           String?                   @db.Text
+  license_number           String?                   @db.VarChar(100)
+  license_expiry_date      DateTime?                 @db.Date
+  license_url              String?                   @db.Text
+  badge_number             String?                   @db.VarChar(100)
+  badge_expiry_date        DateTime?                 @db.Date
+  badge_url                String?                   @db.Text
+  alt_govt_id_number       String?                   @db.VarChar(20)
+  alt_govt_id_type         String?                   @db.VarChar(50)
+  alt_govt_id_url          String?                   @db.Text
+  induction_date           DateTime?                 @db.Date
+  induction_url            String?                   @db.Text
+  is_active                Boolean                   @default(true)
+  created_at               DateTime                  @default(now())
+  updated_at               DateTime                  @updatedAt
+
+  vendor   Vendor    @relation(fields: [vendor_id], references: [vendor_id], onDelete: Cascade)
+  vehicles Vehicle[]
+
+  @@unique([vendor_id, email], name: "uq_vendor_driver_email")
+  @@unique([vendor_id, phone], name: "uq_vendor_driver_phone")
+  @@unique([vendor_id, badge_number], name: "uq_vendor_driver_badge")
+  @@unique([vendor_id, license_number], name: "uq_vendor_driver_license")
+  @@unique([vendor_id, code], name: "uq_vendor_driver_code")
+  @@unique([vendor_id, alt_govt_id_number], name: "uq_vendor_driver_alt_govt_id")
+  @@index([driver_id])
+  @@map("drivers")
+}
