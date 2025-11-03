@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  # 🧱 Database Service (Prisma Migrations + Debug Mode)
+  database-service:
+    image: database-service:latest
+    container_name: database-service
+    pull_policy: never
+    environment:
+      DATABASE_URL: postgresql://postgres:root@host.docker.internal:5432/testmicro?schema=public
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: /bin/sh -c "npx prisma migrate deploy && tail -f /dev/null"
+    volumes:
+      - shared-db:/app/db # shared prisma/db folder
+    restart: "no"
+
+  # ⚙️ User Service (Node App)
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile # optional, only if you have a Dockerfile for this service
+      target: development # if you’re using multi-stage build (FROM base AS development)
+    image: user-service:dev
+    container_name: user-service
+    working_dir: /app
+    ports:
+      - "4001:4001" # expose your dev port
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:root@host.docker.internal:5432/testmicro?schema=public
+    volumes:
+      - .:/app # mount user-service source code
+      - shared-db:/app/db # mount shared db folder
+      - /app/node_modules # prevent overwriting node_modules with host
+    command: /bin/sh -c "npm install && npm install ./db && npm run dev"
+    depends_on:
+      - database-service
+    restart: "no"
+
+volumes:
+  shared-db:
