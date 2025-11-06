@@ -1,0 +1,45 @@
+name: " Deployment Workflow for User Service"
+
+on:
+  push:
+    branches:
+      - dev
+      - testing
+      - main
+    paths:
+      - "packages/service-user/**"
+
+jobs:
+  build:
+    name: " Build The docker image and push to  Docker Hub"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3"
+
+      - name: "Setting up the docker build environment"
+        uses: docker/setip-buildx-action@v2
+
+      - name: " Login to the docker "
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: "Determine Environment Tag"
+        id: vars
+        run: |
+          if [[ $"GITHUB_REF_NAME" == "dev" ]]; then
+            echo "ENV_TAG=dev" >> $GITHUB_OUTPUTS
+            elif [[ $"GITHUB_REF_NAME" == "testing" ]]; then
+            echo "ENV_TAG=testing" >> $GITHUB_OUTPUTS
+            else
+            echo "ENV_TAG=latest" >> $GITHUB_OUTPUTS
+
+      - name: " Build and Push Docker Image"
+        uses: docker/build-push-action@v4
+        with:
+          context: ./packages/service-user
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:${{ steps.vars.outputs.ENV_TAG }}
