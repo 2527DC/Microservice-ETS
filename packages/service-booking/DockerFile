@@ -3,7 +3,7 @@ FROM node:23.9.0 AS base
 WORKDIR /app
 
 # Copy package.json and lock file
-COPY package*.json package-lock.json ./
+COPY package*.json  ./
 
 # Install all dependencies
 RUN npm install
@@ -23,7 +23,7 @@ FROM node:23.9.0 AS production
 WORKDIR /app
 
 # Copy only needed files
-COPY package*.json package-lock.json ./
+COPY package*.json  ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev
