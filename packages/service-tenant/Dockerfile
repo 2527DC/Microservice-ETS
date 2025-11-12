@@ -1,16 +1,17 @@
-# Base Image
-FROM node:23.9.0 AS base
+
+#  Base Image
+FROM node 23.9.0  As base
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
 
-# Development Stage
-FROM base AS development
+#  Development Stage 
+FROM base As development
 EXPOSE 3001
 CMD ["npm", "run", "dev"]
 
-# Production Stage
+#  Production Stage
 FROM node:23.9.0 AS production
 WORKDIR /app
 

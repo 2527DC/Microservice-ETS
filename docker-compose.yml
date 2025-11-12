@@ -1,12 +1,14 @@
-version: "3.9"
-
+# compose file to build and  run the containers
 services:
   database-service:
-    image: database-service:latest
+    build:
+      context: ./packages/database
+      dockerfile: Dockerfile
+    image: database-service:${TAG}
     container_name: database-service
     pull_policy: never
-    environment:
-      DATABASE_URL: postgresql://postgres:root@host.docker.internal:5432/testmicro?schema=public
+    env_file:
+      - ./pacages/database/.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: /bin/sh -c "npx prisma migrate deploy && tail -f /dev/null"
@@ -16,10 +18,10 @@ services:
 
   user-service:
     build:
-      context: .
+      context: ./packages/service-user
       dockerfile: Dockerfile
       target: development
-    image: user-service:dev
+    image: user-service:${TAG}
     container_name: user-service
     environment:
       DATABASE_URL: postgresql://postgres:root@host.docker.internal:5432/testmicro?schema=public

@@ -1,4 +1,4 @@
-name: " Deployment Workflow for User Service"
+name: "Deployment Workflow for User Service"
 
 on:
   push:
@@ -10,19 +10,20 @@ on:
       - "packages/service-user/**"
 
 jobs:
-  build:
-    name: " Build The docker image and push to  Docker Hub"
+  build-and-push-to-Docker-Hub:
+    name: "Build the Docker image and push to Docker Hub"
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout Repository"
-        uses: actions/checkout@v3"
+        uses: actions/checkout@v4
 
-      - name: "Setting up the docker build environment"
-        uses: docker/setip-buildx-action@v2
+      # ✅ Correct action name (was 'setip', should be 'setup')
+      - name: "Setting up the Docker build environment"
+        uses: docker/setup-buildx-action@v3
 
-      - name: " Login to the docker "
-        uses: docker/login-action@v2
+      - name: "Login to Docker Hub"
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -30,16 +31,40 @@ jobs:
       - name: "Determine Environment Tag"
         id: vars
         run: |
-          if [[ $"GITHUB_REF_NAME" == "dev" ]]; then
-            echo "ENV_TAG=dev" >> $GITHUB_OUTPUTS
-            elif [[ $"GITHUB_REF_NAME" == "testing" ]]; then
-            echo "ENV_TAG=testing" >> $GITHUB_OUTPUTS
-            else
-            echo "ENV_TAG=latest" >> $GITHUB_OUTPUTS
+          echo "GITHUB_REF_NAME=${GITHUB_REF_NAME}"
+          if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
+            echo "ENV_TAG=dev" >> $GITHUB_ENV
+            echo "BUILD_TARGET=development" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF_NAME}" == "testing" ]]; then
+            echo "ENV_TAG=testing" >> $GITHUB_ENV
+            echo "BUILD_TARGET=development" >> $GITHUB_ENV
+          else
+            echo "ENV_TAG=latest" >> $GITHUB_ENV
+            echo "BUILD_TARGET=production" >> $GITHUB_ENV
+          fi
+          echo "ENV_TAG=${ENV_TAG}"
+          echo "BUILD_TARGET=${BUILD_TARGET}"
 
-      - name: " Build and Push Docker Image"
-        uses: docker/build-push-action@v4
+      # 🧠 This step logs & validates the Dockerfile path before the build
+      - name: "Verify Dockerfile Path"
+        run: |
+          echo "🔍 Current directory:"
+          pwd
+          echo "📁 Listing all files under ./packages/service-user:"
+          ls -R ./packages/service-user || echo "⚠️ Directory not found!"
+          echo "✅ Checking Dockerfile exists:"
+          if [ -f ./packages/service-user/Dockerfile ]; then
+            echo "✅ Dockerfile found at ./packages/service-user/Dockerfile"
+          else
+            echo "❌ Dockerfile not found!"
+            exit 1
+          fi
+
+      - name: "Build and Push Docker Image"
+        uses: docker/build-push-action@v6
         with:
           context: ./packages/service-user
+          file: ./packages/service-user/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/user-service:${{ steps.vars.outputs.ENV_TAG }}
+          target: ${{ env.BUILD_TARGET }}
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/microservice:user-${{ env.ENV_TAG }}

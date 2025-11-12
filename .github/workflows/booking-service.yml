@@ -1,0 +1,71 @@
+name: Docker image build and push to Docker Hub for Booking Service
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - testing
+    paths:
+      - "packages/service-booking/**"
+
+jobs:
+  build-and-push-to-Docker-Hub:
+    name: Build the Docker image and push to Docker Hub
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Determine environment for tagging the image
+        id: vars
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "dev" ]]; then
+            echo "ENV_TAG=dev" >> $GITHUB_ENV
+          elif [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "ENV_TAG=production" >> $GITHUB_ENV
+          else
+            echo "ENV_TAG=testing" >> $GITHUB_ENV
+          fi
+      - name: "Log Folder Structure"
+        run: |
+          echo "🔍 Current directory:"
+          pwd
+          echo "📁 Listing all folders under ./packages/service-booking:"
+          # List only directories recursively
+          find ./packages/service-booking -type d
+
+      # 🧠 Log full context before Docker build
+      - name: "List Files for Docker Context"
+        run: |
+          echo "🔍 Current directory:"
+          pwd
+          echo "📁 Listing everything recursively in the context:"  
+          ls -R ./packages/service-booking || echo "⚠️ Directory not found!"
+          echo "✅ Verifying Dockerfile exists:"
+          if [ -f ./packages/service-booking/Dockerfile ]; then
+            echo "✅ Dockerfile found at ./packages/service-booking/Dockerfile"
+          else
+            echo "❌ Dockerfile not found!"
+            exit 1
+          fi
+
+      - name: Build and Push Docker image for Booking Service
+        uses: docker/build-push-action@v6
+        with:
+          context: ./packages/service-booking
+          file: ./packages/service-booking/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/microservice:booking-service-${{ env.ENV_TAG }}
+          build-args: |
+            ENV_TAG=${{ env.ENV_TAG }}
