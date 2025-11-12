@@ -1,8 +1,10 @@
-name: Hello Chethan check
+name: Hello Chethan Check
 
-# Allow manual trigger
+# Run on push to dev branch
 on:
-    workflow_dispatch:
+    push:
+        branches:
+            - dev
 
 jobs:
     say-hello:
@@ -10,4 +12,4 @@ jobs:
 
         steps:
             - name: Print Hello
-              run: echo "Hello Chethan"
+              run: echo "Hello Chethan how are you?"
