@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  database-service:
+    build:
+      context: ./packages/database
+      dockerfile: Dockerfile
+    image: database-service:${TAG}
+
+  user-service:
+    build:
+      context: ./packages/service-user
+      dockerfile: Dockerfile
+      target: development
+    image: user-service:${TAG}
+
+  service-booking:
+    image: service-booking:${TAG}
+    build:
+      context: ./packages/service-booking
+      dockerfile: Dockerfile
+      target: development
