@@ -8,6 +8,8 @@
     "dev": "nodemon src/index.js"
   },
   "dependencies": {
+    "@shared/db": "file:../database/db",
+    "@shared/middleware": "file:../../shared/middleware",
     "db": "file:../db",
     "dotenv": "^16.4.0",
     "express": "^4.19.2"

@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   )}&scope=openid%20profile%20email%20w_member_social`;
 
   const postOptions = [
-    " hello  man how are u ",
+    "Hello from my LinkedIn API integration! 🚀",
     "Testing automated posts with LinkedIn API! 💻",
     "Just connected my app to LinkedIn API successfully! 🎯",
     "Exploring LinkedIn API capabilities for social automation! 🔧",
@@ -72,7 +72,7 @@ app.get("/linkedin/callback", async (req, res) => {
   // Generate random message if none provided
   if (!postMessage) {
     const messages = [
-      "I am the persion who loves coding! 🚀 and i am in dipprestion pleace pay me 500 rs i will come for 1 night ",
+      "Hello from my LinkedIn API integration! 🚀",
       "Testing automated posts with LinkedIn API! 💻",
       "Just connected my app to LinkedIn API successfully! 🎯",
       "Exploring LinkedIn API capabilities for social automation! 🔧",

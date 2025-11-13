@@ -1,0 +1,100 @@
+{
+  "info": {
+    "_postman_id": "2e08e70f-cc3d-4d9c-94d7-tenant-crud-demo",
+    "name": "Tenant CRUD API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "gpt5-chethan"
+  },
+  "item": [
+    {
+      "name": "Create Tenant",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"tenant_id\": \"TENANT001\",\n  \"name\": \"FleetQuest Pvt Ltd\",\n  \"address\": \"Bangalore, India\",\n  \"latitude\": 12.9716,\n  \"longitude\": 77.5946\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4001/api/tenants",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "tenants"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get All Tenants",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:4001/api/tenants",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "tenants"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Tenant By ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:4001/api/tenants/TENANT001",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "tenants", "TENANT001"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Tenant",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"FleetQuest Technologies\",\n  \"address\": \"Updated Address, Bangalore\",\n  \"is_active\": true\n}"
+        },
+        "url": {
+          "raw": "http://localhost:4001/api/tenants/TENANT001",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "tenants", "TENANT001"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Tenant",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:4001/api/tenants/TENANT001",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4001",
+          "path": ["api", "tenants", "TENANT001"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

@@ -10,10 +10,10 @@ export class IAMService {
   // Permission Services
   static async createPermission(data) {
     try {
-      // Check if permission already exists
+      // ✅ Check if permission already exists using the compound unique constraint
       const existingPermission = await prisma.permission.findUnique({
         where: {
-          module_action: {
+          uq_permission_module_action: {
             module: data.module,
             action: data.action,
           },
@@ -26,6 +26,7 @@ export class IAMService {
         );
       }
 
+      // ✅ Create new permission
       return await prisma.permission.create({
         data: {
           module: data.module,
@@ -45,8 +46,8 @@ export class IAMService {
   static async getPermissions(filters = {}) {
     try {
       const {
-        page = 1,
-        limit = 10,
+        page,
+        limit,
         is_active,
         search,
         sort_by = "created_at",
@@ -54,9 +55,16 @@ export class IAMService {
         ...where
       } = filters;
 
-      const skip = (page - 1) * limit;
+      // ✅ Determine if pagination is active
+      const usePagination =
+        page &&
+        limit &&
+        !isNaN(page) &&
+        !isNaN(limit) &&
+        page !== "undefined" &&
+        limit !== "undefined";
 
-      // Build search condition
+      // ✅ Build search condition
       const searchCondition = search
         ? {
             OR: [
@@ -67,43 +75,43 @@ export class IAMService {
           }
         : {};
 
-      const [permissions, total] = await Promise.all([
-        prisma.permission.findMany({
-          where: {
-            ...where,
-            ...searchCondition,
-            ...(is_active !== undefined && { is_active: is_active === "true" }),
-          },
-          include: {
-            _count: {
-              select: {
-                policy_permissions: true,
-              },
-            },
-          },
-          skip,
+      // ✅ Build where clause safely
+      const whereCondition = {
+        ...searchCondition,
+        ...(is_active === "true" ? { is_active: true } : {}),
+        ...(is_active === "false" ? { is_active: false } : {}),
+      };
+
+      // ✅ Fetch data (with or without pagination)
+      const permissions = await prisma.permission.findMany({
+        where: whereCondition,
+        include: {
+          _count: { select: { policy_permissions: true } },
+        },
+        ...(usePagination && {
+          skip: (parseInt(page) - 1) * parseInt(limit),
           take: parseInt(limit),
-          orderBy: { [sort_by]: sort_order },
         }),
-        prisma.permission.count({
-          where: {
-            ...where,
-            ...searchCondition,
-            ...(is_active !== undefined && { is_active: is_active === "true" }),
-          },
-        }),
-      ]);
+        orderBy: { [sort_by]: sort_order },
+      });
+
+      const total = usePagination
+        ? await prisma.permission.count({ where: whereCondition })
+        : permissions.length;
 
       return {
         permissions,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total,
-          pages: Math.ceil(total / limit),
-        },
+        pagination: usePagination
+          ? {
+              page: parseInt(page),
+              limit: parseInt(limit),
+              total,
+              pages: Math.ceil(total / limit),
+            }
+          : null,
       };
     } catch (error) {
+      console.error("❌ Error in getPermissions:", error);
       throw new DatabaseError("Failed to fetch permissions", error);
     }
   }

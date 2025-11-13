@@ -4,11 +4,13 @@
   "type": "module",
   "main": "src/index.js",
   "dependencies": {
+    "axios": "^1.13.2",
     "db": "file:../db",
-    "dotenv": "^16.4.0",
-    "express": "^4.19.2"
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "openai": "^6.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.11"
   }
 }
