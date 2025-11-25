@@ -20,5 +20,19 @@
     "@shared/middleware": "file:shared/middleware",
     "nodemon": "^3.1.10",
     "zod": "^4.1.12"
-  }
+  },
+  "version": "1.0.0",
+  "description": "This document explains the **shared folder** and **deployment strategy** used for the microservices-based project using **Docker**, **CI/CD (GitHub Actions)**, and **EC2**.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2527DC/Microservice-ETS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2527DC/Microservice-ETS/issues"
+  },
+  "homepage": "https://github.com/2527DC/Microservice-ETS#readme"
 }

@@ -57,3 +57,14 @@ git sparse-checkout set shared
 cp -r shared /var/lib/docker/volumes/shared_volume/_data/
 rm -rf temp_repo
 ```
+
+1-> which is the best way to implement of using the shared folder in the container services in microservice where of using the orm (prism ) generated folder for all the services the implementation is the database service container will run and by running some commands like I will copy that to the docker volume so that all the container use it and even same for the shared folder implementation is done like on cicd from the git action what I do is copy the file to the server host where the containers run and I run an command that that shared folder has to be copied to the docker volume and that can be used by the containers
+
+1 -> Or instead of using the shared folder like the above implementation what about pushing it as a package npm package and adding those as dependencies  
+ Or just copy the shared folder for each image of services
+But how can I use the prism orm generated thing for all the services as I am using single database for all the services
+
+Crons -> using this implimentation of the using the shared folder in volume insted of that lets build docker image by copying that in the
+image at the build time and insted of migrating and generateing the prisma in the server host in the container we will make to migrate at the cicd time
+
+In development set up -> lets create a docker image file where the docker has to have multistaging as of now lets use dev and production
