@@ -2,10 +2,10 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: packages/service-user/Dockerfile
-      target: dev # ⚠️ "targets" should be "target"
+      dockerfile: packages/user-service/Dockerfile
+      target: dev
     image: user-service:dev
-    container_name: user-service-dev # ⚠️ fix spelling: "constainer_name" → "container_name"
+    container_name: user-service-dev
     ports:
       - "4001:4001"
     environment:

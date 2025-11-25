@@ -1,20 +1,3 @@
-model Admin {
-  admin_id   Int      @id @default(autoincrement())
-  name       String   @db.VarChar(150)
-  email      String   @db.VarChar(150)
-  phone      String   @db.VarChar(20)
-  password   String   @db.VarChar(255)
-  role_id    Int
-  is_active  Boolean  @default(true)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-
-  role Role @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
-
-  @@index([admin_id])
-  @@map("admin")
-}
-
 // Booking Model
 model Booking {
   booking_id       Int               @id @default(autoincrement())
@@ -43,233 +26,6 @@ model Booking {
   @@index([booking_id])
   @@index([status])
   @@map("bookings")
-}
-
-// Cutoff Model
-model Cutoff {
-  tenant_id      String   @id @db.VarChar(50)
-  booking_cutoff Int      @default(0)
-  cancel_cutoff  Int      @default(0)
-  created_at     DateTime @default(now()) @db.Timestamptz(6)
-  updated_at     DateTime @updatedAt @db.Timestamptz(6)
-
-  tenant Tenant @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-
-  @@map("cutoffs")
-}
-
-// Driver Model
-model Driver {
-  driver_id              Int                     @id @default(autoincrement())
-  vendor_id              Int
-  name                   String                  @db.VarChar(150)
-  code                   String                  @db.VarChar(50)
-  email                  String                  @db.VarChar(150)
-  phone                  String                  @db.VarChar(20)
-  gender                 GenderEnum?
-  password               String                  @db.VarChar(255)
-  date_of_birth          DateTime?               @db.Date
-  date_of_joining        DateTime?               @db.Date
-  permanent_address      String?                 @db.Text
-  current_address        String?                 @db.Text
-  photo_url              String?                 @db.Text
-  bg_verify_status       VerificationStatusEnum?
-  bg_expiry_date         DateTime?               @db.Date
-  bg_verify_url          String?                 @db.Text
-  police_verify_status   VerificationStatusEnum?
-  police_expiry_date     DateTime?               @db.Date
-  police_verify_url      String?                 @db.Text
-  medical_verify_status  VerificationStatusEnum?
-  medical_expiry_date    DateTime?               @db.Date
-  medical_verify_url     String?                 @db.Text
-  training_verify_status VerificationStatusEnum?
-  training_expiry_date   DateTime?               @db.Date
-  training_verify_url    String?                 @db.Text
-  eye_verify_status      VerificationStatusEnum?
-  eye_expiry_date        DateTime?               @db.Date
-  eye_verify_url         String?                 @db.Text
-  license_number         String?                 @db.VarChar(100)
-  license_expiry_date    DateTime?               @db.Date
-  license_url            String?                 @db.Text
-  badge_number           String?                 @db.VarChar(100)
-  badge_expiry_date      DateTime?               @db.Date
-  badge_url              String?                 @db.Text
-  alt_govt_id_number     String?                 @db.VarChar(20)
-  alt_govt_id_type       String?                 @db.VarChar(50)
-  alt_govt_id_url        String?                 @db.Text
-  induction_date         DateTime?               @db.Date
-  induction_url          String?                 @db.Text
-  is_active              Boolean                 @default(true)
-  created_at             DateTime                @default(now())
-  updated_at             DateTime                @updatedAt
-
-  vendor   Vendor    @relation(fields: [vendor_id], references: [vendor_id], onDelete: Cascade)
-  vehicles Vehicle[]
-
-  @@unique([vendor_id, email], name: "uq_vendor_driver_email")
-  @@unique([vendor_id, phone], name: "uq_vendor_driver_phone")
-  @@unique([vendor_id, badge_number], name: "uq_vendor_driver_badge")
-  @@unique([vendor_id, license_number], name: "uq_vendor_driver_license")
-  @@unique([vendor_id, code], name: "uq_vendor_driver_code")
-  @@unique([vendor_id, alt_govt_id_number], name: "uq_vendor_driver_alt_govt_id")
-  @@index([driver_id])
-  @@map("drivers")
-}
-
-model Employee {
-  employee_id              Int         @id @default(autoincrement())
-  tenant_id                String      @db.VarChar(50)
-  role_id                  Int
-  name                     String      @db.VarChar(150)
-  employee_code            String      @db.VarChar(50)
-  email                    String      @db.VarChar(150)
-  password                 String      @db.VarChar(255)
-  team_id                  Int?
-  phone                    String      @db.VarChar(20)
-  alternate_phone          String?     @db.VarChar(20)
-  special_needs            String?     @db.Text
-  special_needs_start_date DateTime?   @db.Date // ✅ Changed from Date? to DateTime? @db.Date
-  special_needs_end_date   DateTime?   @db.Date // ✅ Changed from Date? to DateTime? @db.Date
-  address                  String?     @db.Text
-  latitude                 Decimal?    @db.Decimal(9, 6)
-  longitude                Decimal?    @db.Decimal(9, 6)
-  gender                   GenderEnum?
-  is_active                Boolean     @default(true)
-  created_at               DateTime    @default(now())
-  updated_at               DateTime    @updatedAt
-
-  tenant         Tenant         @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-  team           Team?          @relation(fields: [team_id], references: [team_id], onDelete: SetNull)
-  role           Role           @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
-  bookings       Booking[]
-  weekoff_config WeekoffConfig?
-
-  @@unique([tenant_id, employee_code], name: "uq_employee_code_per_tenant")
-  @@unique([tenant_id, email], name: "uq_employee_email_per_tenant")
-  @@unique([tenant_id, phone], name: "uq_employee_phone_per_tenant")
-  @@map("employees")
-}
-
-// Enums
-enum GenderEnum {
-  Male
-  Female
-  Other
-}
-
-enum VerificationStatusEnum {
-  Pending
-  Approved
-  Rejected
-}
-
-enum BookingStatusEnum {
-  Pending
-  Confirmed
-  Ongoing
-  Completed
-  Cancelled
-  NoShow    @map("No-Show")
-}
-
-enum ShiftLogTypeEnum {
-  IN
-  OUT
-}
-
-enum PickupTypeEnum {
-  Pickup
-  Nodal
-}
-
-enum RouteManagementStatusEnum {
-  Planned
-  Assigned
-  InProgress
-  Completed
-  Cancelled
-}
-
-// Permission Model
-model Permission {
-  permission_id Int      @id @default(autoincrement())
-  module        String   @db.VarChar(100)
-  action        String   @db.VarChar(50)
-  description   String?  @db.VarChar(255)
-  is_active     Boolean  @default(true)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
-
-  policy_permissions PolicyPermission[]
-
-  @@unique([module, action], name: "uq_permission_module_action")
-  @@index([permission_id])
-  @@map("iam_permissions")
-}
-
-// Policy Model
-model Policy {
-  policy_id        Int      @id @default(autoincrement())
-  tenant_id        String?  @db.VarChar(50)
-  name             String   @db.VarChar(100)
-  description      String?  @db.VarChar(255)
-  is_active        Boolean  @default(true)
-  is_system_policy Boolean  @default(false)
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
-
-  tenant             Tenant?            @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-  policy_permissions PolicyPermission[]
-  role_policies      RolePolicy[]
-
-  @@unique([tenant_id, name], name: "uq_policy_tenant_name")
-  @@index([tenant_id])
-  @@map("iam_policies")
-}
-
-// Policy-Permission Join Table
-model PolicyPermission {
-  policy_id     Int
-  permission_id Int
-
-  policy     Policy     @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
-  permission Permission @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
-
-  @@id([policy_id, permission_id])
-  @@map("iam_policy_permission")
-}
-
-// Role Model
-model Role {
-  role_id        Int      @id @default(autoincrement())
-  name           String   @db.VarChar(100)
-  description    String?  @db.VarChar(255)
-  is_active      Boolean  @default(true)
-  tenant_id      String?  @db.VarChar(50)
-  is_system_role Boolean  @default(false)
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
-
-  tenant        Tenant?      @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-  role_policies RolePolicy[]
-  admins        Admin[]
-  vendor_users  VendorUser[]
-  employees     Employee[]
-
-  @@unique([tenant_id, name], name: "uq_role_tenant_name")
-  @@map("iam_roles")
-}
-
-// Role-Policy Join Table
-model RolePolicy {
-  role_id   Int
-  policy_id Int
-
-  role   Role   @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
-  policy Policy @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
-
-  @@id([role_id, policy_id])
-  @@map("iam_role_policy")
 }
 
 // ==============================================
@@ -334,68 +90,102 @@ model RouteManagement {
   @@map("route_management")
 }
 
-// Shift Model
-model Shift {
-  shift_id             Int              @id @default(autoincrement())
-  tenant_id            String           @db.VarChar(50)
-  shift_code           String           @db.VarChar(50)
-  log_type             ShiftLogTypeEnum
-  shift_time           DateTime         @db.Time(6)
-  pickup_type          PickupTypeEnum?
-  gender               GenderEnum?
-  waiting_time_minutes Int              @default(0)
-  is_active            Boolean          @default(true)
-  created_at           DateTime         @default(now())
-  updated_at           DateTime         @updatedAt
-
-  tenant   Tenant    @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-  bookings Booking[]
-
-  @@unique([tenant_id, shift_code], name: "uq_shift_code_per_tenant")
-  @@index([shift_id])
-  @@map("shifts")
+// Enums
+enum GenderEnum {
+  Male
+  Female
+  Other
 }
 
-// Team Model
-model Team {
-  team_id     Int      @id @default(autoincrement())
-  tenant_id   String   @db.VarChar(50)
-  name        String   @db.VarChar(150)
-  description String?  @db.Text
-  is_active   Boolean  @default(true)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-
-  tenant    Tenant     @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
-  employees Employee[]
-  bookings  Booking[]
-
-  @@unique([tenant_id, name], name: "uq_team_name_per_tenant")
-  @@index([team_id])
-  @@map("teams")
+enum VerificationStatusEnum {
+  Pending
+  Approved
+  Rejected
 }
 
-// Tenant Model
-model Tenant {
-  tenant_id  String   @id @db.VarChar(50)
-  name       String   @unique @db.VarChar(150)
-  address    String?  @db.VarChar(255)
-  longitude  Decimal? @db.Decimal(9, 6)
-  latitude   Decimal? @db.Decimal(9, 6)
-  is_active  Boolean  @default(true)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+enum BookingStatusEnum {
+  Pending
+  Confirmed
+  Ongoing
+  Completed
+  Cancelled
+  NoShow    @map("No-Show")
+}
 
-  teams     Team[]
-  employees Employee[]
-  shifts    Shift[]
-  bookings  Booking[]
-  policies  Policy[]
-  cutoff    Cutoff?
-  vendors   Vendor[]
-  roles     Role[]
+enum ShiftLogTypeEnum {
+  IN
+  OUT
+}
 
-  @@map("tenants")
+enum PickupTypeEnum {
+  Pickup
+  Nodal
+}
+
+enum RouteManagementStatusEnum {
+  Planned
+  Assigned
+  InProgress
+  Completed
+  Cancelled
+}
+
+// Driver Model
+model Driver {
+  driver_id              Int                     @id @default(autoincrement())
+  vendor_id              Int
+  name                   String                  @db.VarChar(150)
+  code                   String                  @db.VarChar(50)
+  email                  String                  @db.VarChar(150)
+  phone                  String                  @db.VarChar(20)
+  gender                 GenderEnum?
+  password               String                  @db.VarChar(255)
+  date_of_birth          DateTime?               @db.Date
+  date_of_joining        DateTime?               @db.Date
+  permanent_address      String?                 @db.Text
+  current_address        String?                 @db.Text
+  photo_url              String?                 @db.Text
+  bg_verify_status       VerificationStatusEnum?
+  bg_expiry_date         DateTime?               @db.Date
+  bg_verify_url          String?                 @db.Text
+  police_verify_status   VerificationStatusEnum?
+  police_expiry_date     DateTime?               @db.Date
+  police_verify_url      String?                 @db.Text
+  medical_verify_status  VerificationStatusEnum?
+  medical_expiry_date    DateTime?               @db.Date
+  medical_verify_url     String?                 @db.Text
+  training_verify_status VerificationStatusEnum?
+  training_expiry_date   DateTime?               @db.Date
+  training_verify_url    String?                 @db.Text
+  eye_verify_status      VerificationStatusEnum?
+  eye_expiry_date        DateTime?               @db.Date
+  eye_verify_url         String?                 @db.Text
+  license_number         String?                 @db.VarChar(100)
+  license_expiry_date    DateTime?               @db.Date
+  license_url            String?                 @db.Text
+  badge_number           String?                 @db.VarChar(100)
+  badge_expiry_date      DateTime?               @db.Date
+  badge_url              String?                 @db.Text
+  alt_govt_id_number     String?                 @db.VarChar(20)
+  alt_govt_id_type       String?                 @db.VarChar(50)
+  alt_govt_id_url        String?                 @db.Text
+  induction_date         DateTime?               @db.Date
+  induction_url          String?                 @db.Text
+  is_active              Boolean                 @default(true)
+  created_at             DateTime                @default(now())
+  updated_at             DateTime                @updatedAt
+
+  vendor   Vendor    @relation(fields: [vendor_id], references: [vendor_id], onDelete: Cascade)
+  vehicles Vehicle[]
+
+  @@unique([vendor_id, email], name: "uq_vendor_driver_email")
+  @@unique([vendor_id, phone], name: "uq_vendor_driver_phone")
+  @@unique([vendor_id, badge_number], name: "uq_vendor_driver_badge")
+  @@unique([vendor_id, license_number], name: "uq_vendor_driver_license")
+  @@unique([vendor_id, code], name: "uq_vendor_driver_code")
+  @@unique([vendor_id, alt_govt_id_number], name: "uq_vendor_driver_alt_govt_id")
+  @@index([driver_id])
+  @@map("drivers")
 }
 
 // Vehicle Model
@@ -508,6 +298,117 @@ model VendorUser {
   @@map("vendor_users")
 }
 
+// Cutoff Model
+model Cutoff {
+  tenant_id      String   @id @db.VarChar(50)
+  booking_cutoff Int      @default(0)
+  cancel_cutoff  Int      @default(0)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime @updatedAt @db.Timestamptz(6)
+
+  tenant Tenant @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+
+  @@map("cutoffs")
+}
+
+model Employee {
+  employee_id              Int         @id @default(autoincrement())
+  tenant_id                String      @db.VarChar(50)
+  role_id                  Int
+  name                     String      @db.VarChar(150)
+  employee_code            String      @db.VarChar(50)
+  email                    String      @db.VarChar(150)
+  password                 String      @db.VarChar(255)
+  team_id                  Int?
+  phone                    String      @db.VarChar(20)
+  alternate_phone          String?     @db.VarChar(20)
+  special_needs            String?     @db.Text
+  special_needs_start_date DateTime?   @db.Date // ✅ Changed from Date? to DateTime? @db.Date
+  special_needs_end_date   DateTime?   @db.Date // ✅ Changed from Date? to DateTime? @db.Date
+  address                  String?     @db.Text
+  latitude                 Decimal?    @db.Decimal(9, 6)
+  longitude                Decimal?    @db.Decimal(9, 6)
+  gender                   GenderEnum?
+  is_active                Boolean     @default(true)
+  created_at               DateTime    @default(now())
+  updated_at               DateTime    @updatedAt
+
+  tenant         Tenant         @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  team           Team?          @relation(fields: [team_id], references: [team_id], onDelete: SetNull)
+  role           Role           @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
+  bookings       Booking[]
+  weekoff_config WeekoffConfig?
+
+  @@unique([tenant_id, employee_code], name: "uq_employee_code_per_tenant")
+  @@unique([tenant_id, email], name: "uq_employee_email_per_tenant")
+  @@unique([tenant_id, phone], name: "uq_employee_phone_per_tenant")
+  @@map("employees")
+}
+
+// Shift Model
+model Shift {
+  shift_id             Int              @id @default(autoincrement())
+  tenant_id            String           @db.VarChar(50)
+  shift_code           String           @db.VarChar(50)
+  log_type             ShiftLogTypeEnum
+  shift_time           DateTime         @db.Time(6)
+  pickup_type          PickupTypeEnum?
+  gender               GenderEnum?
+  waiting_time_minutes Int              @default(0)
+  is_active            Boolean          @default(true)
+  created_at           DateTime         @default(now())
+  updated_at           DateTime         @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@unique([tenant_id, shift_code], name: "uq_shift_code_per_tenant")
+  @@index([shift_id])
+  @@map("shifts")
+}
+
+// Team Model
+model Team {
+  team_id     Int      @id @default(autoincrement())
+  tenant_id   String   @db.VarChar(50)
+  name        String   @db.VarChar(150)
+  description String?  @db.Text
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  tenant    Tenant     @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  employees Employee[]
+  bookings  Booking[]
+
+  @@unique([tenant_id, name], name: "uq_team_name_per_tenant")
+  @@index([team_id])
+  @@map("teams")
+}
+
+// Tenant Model
+model Tenant {
+  tenant_id  String   @id @db.VarChar(50)
+  name       String   @unique @db.VarChar(150)
+  address    String?  @db.VarChar(255)
+  longitude  Decimal? @db.Decimal(9, 6)
+  latitude   Decimal? @db.Decimal(9, 6)
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  teams     Team[]
+  employees Employee[]
+  shifts    Shift[]
+  bookings  Booking[]
+  policies  Policy[]
+  cutoff    Cutoff?
+  vendors   Vendor[]
+  roles     Role[]
+
+  @@map("tenants")
+}
+
 // WeekoffConfig Model
 model WeekoffConfig {
   weekoff_id  Int      @id @default(autoincrement())
@@ -528,10 +429,108 @@ model WeekoffConfig {
   @@map("weekoff_configs")
 }
 
+model Admin {
+  admin_id   Int      @id @default(autoincrement())
+  name       String   @db.VarChar(150)
+  email      String   @db.VarChar(150)
+  phone      String   @db.VarChar(20)
+  password   String   @db.VarChar(255)
+  role_id    Int
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  role Role @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
+
+  @@index([admin_id])
+  @@map("admin")
+}
+
+// Permission Model
+model Permission {
+  permission_id Int      @id @default(autoincrement())
+  module        String   @db.VarChar(100)
+  action        String   @db.VarChar(50)
+  description   String?  @db.VarChar(255)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  policy_permissions PolicyPermission[]
+
+  @@unique([module, action], name: "uq_permission_module_action")
+  @@index([permission_id])
+  @@map("iam_permissions")
+}
+
+// Policy Model
+model Policy {
+  policy_id        Int      @id @default(autoincrement())
+  tenant_id        String?  @db.VarChar(50)
+  name             String   @db.VarChar(100)
+  description      String?  @db.VarChar(255)
+  is_active        Boolean  @default(true)
+  is_system_policy Boolean  @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  tenant             Tenant?            @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  policy_permissions PolicyPermission[]
+  role_policies      RolePolicy[]
+
+  @@unique([tenant_id, name], name: "uq_policy_tenant_name")
+  @@index([tenant_id])
+  @@map("iam_policies")
+}
+
+// Policy-Permission Join Table
+model PolicyPermission {
+  policy_id     Int
+  permission_id Int
+
+  policy     Policy     @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
+  permission Permission @relation(fields: [permission_id], references: [permission_id], onDelete: Cascade)
+
+  @@id([policy_id, permission_id])
+  @@map("iam_policy_permission")
+}
+
+// Role Model
+model Role {
+  role_id        Int      @id @default(autoincrement())
+  name           String   @db.VarChar(100)
+  description    String?  @db.VarChar(255)
+  is_active      Boolean  @default(true)
+  tenant_id      String?  @db.VarChar(50)
+  is_system_role Boolean  @default(false)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  tenant        Tenant?      @relation(fields: [tenant_id], references: [tenant_id], onDelete: Cascade)
+  role_policies RolePolicy[]
+  admins        Admin[]
+  vendor_users  VendorUser[]
+  employees     Employee[]
+
+  @@unique([tenant_id, name], name: "uq_role_tenant_name")
+  @@map("iam_roles")
+}
+
+// Role-Policy Join Table
+model RolePolicy {
+  role_id   Int
+  policy_id Int
+
+  role   Role   @relation(fields: [role_id], references: [role_id], onDelete: Cascade)
+  policy Policy @relation(fields: [policy_id], references: [policy_id], onDelete: Cascade)
+
+  @@id([role_id, policy_id])
+  @@map("iam_role_policy")
+}
+
 generator client {
-  provider      = "prisma-client-js"
-  output        = "../db/generated"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  provider = "prisma-client-js"
+  output   = "../db/generated"
 }
 
 datasource db {

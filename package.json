@@ -1,9 +1,6 @@
 {
   "name": "microservice-root",
   "private": true,
-  "prisma": {
-    "schema": "./prisma"
-  },
   "scripts": {
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
@@ -11,15 +8,6 @@
     "dev:user": "nodemon packages/service-user/src/index.js",
     "dev:booking": "node packages/service-booking/src/index.js",
     "dev:fleet": "nodemon packages/service-fleet/src/index.js"
-  },
-  "devDependencies": {
-    "prisma": "^6.0.0"
-  },
-  "dependencies": {
-    "@shared/db": "file:db",
-    "@shared/middleware": "file:shared/middleware",
-    "nodemon": "^3.1.10",
-    "zod": "^4.1.12"
   },
   "version": "1.0.0",
   "description": "This document explains the **shared folder** and **deployment strategy** used for the microservices-based project using **Docker**, **CI/CD (GitHub Actions)**, and **EC2**.",

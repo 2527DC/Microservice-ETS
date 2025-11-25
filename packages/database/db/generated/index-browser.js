@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.18.0
- * Query Engine version: 34b5a692b7bd79939a9a2c3ef97d816e749cda2f
+ * Prisma Client JS version: 6.17.1
+ * Query Engine version: 272a37d34178c2894197e17273bf937f25acdeac
  */
 Prisma.prismaVersion = {
-  client: "6.18.0",
-  engine: "34b5a692b7bd79939a9a2c3ef97d816e749cda2f"
+  client: "6.17.1",
+  engine: "272a37d34178c2894197e17273bf937f25acdeac"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,18 +120,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.AdminScalarFieldEnum = {
-  admin_id: 'admin_id',
-  name: 'name',
-  email: 'email',
-  phone: 'phone',
-  password: 'password',
-  role_id: 'role_id',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
 exports.Prisma.BookingScalarFieldEnum = {
   booking_id: 'booking_id',
   tenant_id: 'tenant_id',
@@ -150,124 +138,6 @@ exports.Prisma.BookingScalarFieldEnum = {
   reason: 'reason',
   created_at: 'created_at',
   updated_at: 'updated_at'
-};
-
-exports.Prisma.CutoffScalarFieldEnum = {
-  tenant_id: 'tenant_id',
-  booking_cutoff: 'booking_cutoff',
-  cancel_cutoff: 'cancel_cutoff',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.DriverScalarFieldEnum = {
-  driver_id: 'driver_id',
-  vendor_id: 'vendor_id',
-  name: 'name',
-  code: 'code',
-  email: 'email',
-  phone: 'phone',
-  gender: 'gender',
-  password: 'password',
-  date_of_birth: 'date_of_birth',
-  date_of_joining: 'date_of_joining',
-  permanent_address: 'permanent_address',
-  current_address: 'current_address',
-  photo_url: 'photo_url',
-  bg_verify_status: 'bg_verify_status',
-  bg_expiry_date: 'bg_expiry_date',
-  bg_verify_url: 'bg_verify_url',
-  police_verify_status: 'police_verify_status',
-  police_expiry_date: 'police_expiry_date',
-  police_verify_url: 'police_verify_url',
-  medical_verify_status: 'medical_verify_status',
-  medical_expiry_date: 'medical_expiry_date',
-  medical_verify_url: 'medical_verify_url',
-  training_verify_status: 'training_verify_status',
-  training_expiry_date: 'training_expiry_date',
-  training_verify_url: 'training_verify_url',
-  eye_verify_status: 'eye_verify_status',
-  eye_expiry_date: 'eye_expiry_date',
-  eye_verify_url: 'eye_verify_url',
-  license_number: 'license_number',
-  license_expiry_date: 'license_expiry_date',
-  license_url: 'license_url',
-  badge_number: 'badge_number',
-  badge_expiry_date: 'badge_expiry_date',
-  badge_url: 'badge_url',
-  alt_govt_id_number: 'alt_govt_id_number',
-  alt_govt_id_type: 'alt_govt_id_type',
-  alt_govt_id_url: 'alt_govt_id_url',
-  induction_date: 'induction_date',
-  induction_url: 'induction_url',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.EmployeeScalarFieldEnum = {
-  employee_id: 'employee_id',
-  tenant_id: 'tenant_id',
-  role_id: 'role_id',
-  name: 'name',
-  employee_code: 'employee_code',
-  email: 'email',
-  password: 'password',
-  team_id: 'team_id',
-  phone: 'phone',
-  alternate_phone: 'alternate_phone',
-  special_needs: 'special_needs',
-  special_needs_start_date: 'special_needs_start_date',
-  special_needs_end_date: 'special_needs_end_date',
-  address: 'address',
-  latitude: 'latitude',
-  longitude: 'longitude',
-  gender: 'gender',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.PermissionScalarFieldEnum = {
-  permission_id: 'permission_id',
-  module: 'module',
-  action: 'action',
-  description: 'description',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.PolicyScalarFieldEnum = {
-  policy_id: 'policy_id',
-  tenant_id: 'tenant_id',
-  name: 'name',
-  description: 'description',
-  is_active: 'is_active',
-  is_system_policy: 'is_system_policy',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.PolicyPermissionScalarFieldEnum = {
-  policy_id: 'policy_id',
-  permission_id: 'permission_id'
-};
-
-exports.Prisma.RoleScalarFieldEnum = {
-  role_id: 'role_id',
-  name: 'name',
-  description: 'description',
-  is_active: 'is_active',
-  tenant_id: 'tenant_id',
-  is_system_role: 'is_system_role',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.RolePolicyScalarFieldEnum = {
-  role_id: 'role_id',
-  policy_id: 'policy_id'
 };
 
 exports.Prisma.RouteScalarFieldEnum = {
@@ -312,36 +182,46 @@ exports.Prisma.RouteManagementScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
-exports.Prisma.ShiftScalarFieldEnum = {
-  shift_id: 'shift_id',
-  tenant_id: 'tenant_id',
-  shift_code: 'shift_code',
-  log_type: 'log_type',
-  shift_time: 'shift_time',
-  pickup_type: 'pickup_type',
+exports.Prisma.DriverScalarFieldEnum = {
+  driver_id: 'driver_id',
+  vendor_id: 'vendor_id',
+  name: 'name',
+  code: 'code',
+  email: 'email',
+  phone: 'phone',
   gender: 'gender',
-  waiting_time_minutes: 'waiting_time_minutes',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.TeamScalarFieldEnum = {
-  team_id: 'team_id',
-  tenant_id: 'tenant_id',
-  name: 'name',
-  description: 'description',
-  is_active: 'is_active',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.TenantScalarFieldEnum = {
-  tenant_id: 'tenant_id',
-  name: 'name',
-  address: 'address',
-  longitude: 'longitude',
-  latitude: 'latitude',
+  password: 'password',
+  date_of_birth: 'date_of_birth',
+  date_of_joining: 'date_of_joining',
+  permanent_address: 'permanent_address',
+  current_address: 'current_address',
+  photo_url: 'photo_url',
+  bg_verify_status: 'bg_verify_status',
+  bg_expiry_date: 'bg_expiry_date',
+  bg_verify_url: 'bg_verify_url',
+  police_verify_status: 'police_verify_status',
+  police_expiry_date: 'police_expiry_date',
+  police_verify_url: 'police_verify_url',
+  medical_verify_status: 'medical_verify_status',
+  medical_expiry_date: 'medical_expiry_date',
+  medical_verify_url: 'medical_verify_url',
+  training_verify_status: 'training_verify_status',
+  training_expiry_date: 'training_expiry_date',
+  training_verify_url: 'training_verify_url',
+  eye_verify_status: 'eye_verify_status',
+  eye_expiry_date: 'eye_expiry_date',
+  eye_verify_url: 'eye_verify_url',
+  license_number: 'license_number',
+  license_expiry_date: 'license_expiry_date',
+  license_url: 'license_url',
+  badge_number: 'badge_number',
+  badge_expiry_date: 'badge_expiry_date',
+  badge_url: 'badge_url',
+  alt_govt_id_number: 'alt_govt_id_number',
+  alt_govt_id_type: 'alt_govt_id_type',
+  alt_govt_id_url: 'alt_govt_id_url',
+  induction_date: 'induction_date',
+  induction_url: 'induction_url',
   is_active: 'is_active',
   created_at: 'created_at',
   updated_at: 'updated_at'
@@ -412,6 +292,72 @@ exports.Prisma.VendorUserScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.CutoffScalarFieldEnum = {
+  tenant_id: 'tenant_id',
+  booking_cutoff: 'booking_cutoff',
+  cancel_cutoff: 'cancel_cutoff',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.EmployeeScalarFieldEnum = {
+  employee_id: 'employee_id',
+  tenant_id: 'tenant_id',
+  role_id: 'role_id',
+  name: 'name',
+  employee_code: 'employee_code',
+  email: 'email',
+  password: 'password',
+  team_id: 'team_id',
+  phone: 'phone',
+  alternate_phone: 'alternate_phone',
+  special_needs: 'special_needs',
+  special_needs_start_date: 'special_needs_start_date',
+  special_needs_end_date: 'special_needs_end_date',
+  address: 'address',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  gender: 'gender',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ShiftScalarFieldEnum = {
+  shift_id: 'shift_id',
+  tenant_id: 'tenant_id',
+  shift_code: 'shift_code',
+  log_type: 'log_type',
+  shift_time: 'shift_time',
+  pickup_type: 'pickup_type',
+  gender: 'gender',
+  waiting_time_minutes: 'waiting_time_minutes',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.TeamScalarFieldEnum = {
+  team_id: 'team_id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.TenantScalarFieldEnum = {
+  tenant_id: 'tenant_id',
+  name: 'name',
+  address: 'address',
+  longitude: 'longitude',
+  latitude: 'latitude',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.WeekoffConfigScalarFieldEnum = {
   weekoff_id: 'weekoff_id',
   employee_id: 'employee_id',
@@ -424,6 +370,60 @@ exports.Prisma.WeekoffConfigScalarFieldEnum = {
   sunday: 'sunday',
   created_at: 'created_at',
   updated_at: 'updated_at'
+};
+
+exports.Prisma.AdminScalarFieldEnum = {
+  admin_id: 'admin_id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  password: 'password',
+  role_id: 'role_id',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PermissionScalarFieldEnum = {
+  permission_id: 'permission_id',
+  module: 'module',
+  action: 'action',
+  description: 'description',
+  is_active: 'is_active',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PolicyScalarFieldEnum = {
+  policy_id: 'policy_id',
+  tenant_id: 'tenant_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  is_system_policy: 'is_system_policy',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PolicyPermissionScalarFieldEnum = {
+  policy_id: 'policy_id',
+  permission_id: 'permission_id'
+};
+
+exports.Prisma.RoleScalarFieldEnum = {
+  role_id: 'role_id',
+  name: 'name',
+  description: 'description',
+  is_active: 'is_active',
+  tenant_id: 'tenant_id',
+  is_system_role: 'is_system_role',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.RolePolicyScalarFieldEnum = {
+  role_id: 'role_id',
+  policy_id: 'policy_id'
 };
 
 exports.Prisma.SortOrder = {
@@ -449,6 +449,14 @@ exports.BookingStatusEnum = exports.$Enums.BookingStatusEnum = {
   NoShow: 'NoShow'
 };
 
+exports.RouteManagementStatusEnum = exports.$Enums.RouteManagementStatusEnum = {
+  Planned: 'Planned',
+  Assigned: 'Assigned',
+  InProgress: 'InProgress',
+  Completed: 'Completed',
+  Cancelled: 'Cancelled'
+};
+
 exports.GenderEnum = exports.$Enums.GenderEnum = {
   Male: 'Male',
   Female: 'Female',
@@ -459,14 +467,6 @@ exports.VerificationStatusEnum = exports.$Enums.VerificationStatusEnum = {
   Pending: 'Pending',
   Approved: 'Approved',
   Rejected: 'Rejected'
-};
-
-exports.RouteManagementStatusEnum = exports.$Enums.RouteManagementStatusEnum = {
-  Planned: 'Planned',
-  Assigned: 'Assigned',
-  InProgress: 'InProgress',
-  Completed: 'Completed',
-  Cancelled: 'Cancelled'
 };
 
 exports.ShiftLogTypeEnum = exports.$Enums.ShiftLogTypeEnum = {
@@ -480,27 +480,27 @@ exports.PickupTypeEnum = exports.$Enums.PickupTypeEnum = {
 };
 
 exports.Prisma.ModelName = {
-  Admin: 'Admin',
   Booking: 'Booking',
-  Cutoff: 'Cutoff',
-  Driver: 'Driver',
-  Employee: 'Employee',
-  Permission: 'Permission',
-  Policy: 'Policy',
-  PolicyPermission: 'PolicyPermission',
-  Role: 'Role',
-  RolePolicy: 'RolePolicy',
   Route: 'Route',
   RouteManagementBooking: 'RouteManagementBooking',
   RouteManagement: 'RouteManagement',
-  Shift: 'Shift',
-  Team: 'Team',
-  Tenant: 'Tenant',
+  Driver: 'Driver',
   Vehicle: 'Vehicle',
   VehicleType: 'VehicleType',
   Vendor: 'Vendor',
   VendorUser: 'VendorUser',
-  WeekoffConfig: 'WeekoffConfig'
+  Cutoff: 'Cutoff',
+  Employee: 'Employee',
+  Shift: 'Shift',
+  Team: 'Team',
+  Tenant: 'Tenant',
+  WeekoffConfig: 'WeekoffConfig',
+  Admin: 'Admin',
+  Permission: 'Permission',
+  Policy: 'Policy',
+  PolicyPermission: 'PolicyPermission',
+  Role: 'Role',
+  RolePolicy: 'RolePolicy'
 };
 
 /**

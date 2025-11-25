@@ -1,0 +1,19 @@
+// WeekoffConfig Model
+model WeekoffConfig {
+  weekoff_id  Int      @id @default(autoincrement())
+  employee_id Int      @unique
+  monday      Boolean  @default(false)
+  tuesday     Boolean  @default(false)
+  wednesday   Boolean  @default(false)
+  thursday    Boolean  @default(false)
+  friday      Boolean  @default(false)
+  saturday    Boolean  @default(false)
+  sunday      Boolean  @default(false)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  employee Employee @relation(fields: [employee_id], references: [employee_id], onDelete: Cascade)
+
+  @@index([weekoff_id])
+  @@map("weekoff_configs")
+}

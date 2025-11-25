@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "main": "src/prismaClient.js",
+  "scripts": {
+    "migrate": " npx prisma migrate dev",
+    "generate": "npx prisma generate",
+    "studio": "npx prisma studio",
+    "dbpush": "npx prisma db push"
+  },
   "devDependencies": {
     "prisma": "^6.0.0"
   },
