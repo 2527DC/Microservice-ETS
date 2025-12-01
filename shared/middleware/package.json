@@ -1,9 +1,0 @@
-{
-  "name": "@shared/middleware",
-  "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
-  "dependencies": {
-    "zod": "^4.1.13"
-  }
-}

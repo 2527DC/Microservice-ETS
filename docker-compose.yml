@@ -2,12 +2,38 @@ services:
   user-service:
     build:
       context: .
-      dockerfile: packages/user-service/Dockerfile
+      dockerfile: user-service/Dockerfile
       target: dev
     image: user-service:dev
     container_name: user-service-dev
     ports:
       - "4001:4001"
+    environment:
+      DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
+      HOST: 0.0.0.0
+
+  tennat-service:
+    build:
+      context: .
+      dockerfile: tenant-service/Dockerfile
+      target: dev
+    image: tenant-service:dev
+    container_name: tenant-service-dev
+    ports:
+      - "4002:4002"
+    environment:
+      DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
+      HOST: 0.0.0.0
+
+  fleet-services:
+    build:
+      context: .
+      dockerfile: fleet-service/Dockerfile
+      target: dev
+    image: fleet-service-dev
+    container_name: fleet-service-dev
+    ports:
+      - "4003:4003"
     environment:
       DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
       HOST: 0.0.0.0

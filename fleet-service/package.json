@@ -1,0 +1,21 @@
+{
+  "name": "service-fleet",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "@shared/db": "file:../database/db",
+    "axios": "^1.13.2",
+    "db": "file:../db",
+    "dotenv": "^16.6.1",
+    "express": "^4.19.2",
+    "openai": "^6.8.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

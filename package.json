@@ -5,7 +5,8 @@
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
     "studio": "npx prisma studio",
-    "dev:user": "nodemon packages/service-user/src/index.js",
+    "dev:user": "npm run dev --prefix packages/user-service",
+    "dev:tenant": "npm run dev --prefix packages/tenant-service",
     "dev:booking": "node packages/service-booking/src/index.js",
     "dev:fleet": "nodemon packages/service-fleet/src/index.js"
   },
