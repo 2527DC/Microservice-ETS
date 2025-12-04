@@ -23,7 +23,7 @@ const HOST = process.env.HOST || "localhost";
       console.log(`⏰ Started at: ${new Date().toISOString()}`);
     });
   } catch (error) {
-    console.error("❌ Failed to connect to database:", error);
+    console.error("❌ Failed t connect to database:", error);
     process.exit(1);
   }
 })();
