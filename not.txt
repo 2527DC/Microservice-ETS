@@ -1,0 +1,69 @@
+name: Microservices CI/CD
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "user-service/**"
+      - "tenant-service/**"
+      - "fleet-service/**"
+      - "booking-service/**"
+
+jobs:
+  build-microservices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Detect changed microservice folders
+      - name: Detect Changed Services
+        id: changes
+        run: |
+          SERVICES=("user-service" "tenant-service" "fleet-service" "booking-service")
+          CHANGED=()
+
+          echo "Changed files:"
+          git diff --name-only HEAD~1 HEAD
+
+          for SERVICE in "${SERVICES[@]}"; do
+            if git diff --name-only HEAD~1 HEAD | grep "^$SERVICE/" > /dev/null; then
+              CHANGED+=("\"$SERVICE\"")
+            fi
+          done
+
+          echo "services=[$(IFS=,; echo "${CHANGED[*]}")]" >> $GITHUB_OUTPUT
+
+      - name: Show Changed Services
+        run: |
+          echo Changed services: ${{ steps.changes.outputs.services }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    # Declare matrix here (at job level)
+    strategy:
+      matrix:
+        service: ${{ fromJson(steps.changes.outputs.services) }}
+      fail-fast: false
+
+    # Build & push only changed services
+    steps:
+      - name: Build & Push Docker Image
+        uses: docker/build-push-action@v5
+        if: ${{ matrix.service != '' }}
+        with:
+          context: ./${{ matrix.service }}
+          file: ./${{ matrix.service }}/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.service }}:latest
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.service }}:${{ github.sha }}

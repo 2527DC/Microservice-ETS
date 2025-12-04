@@ -1,0 +1,60 @@
+# compose file to build and  run the containers
+services:
+  database-service:
+    build:
+      context: ./packages/database
+      dockerfile: Dockerfile
+    image: database-service:${TAG}
+    container_name: database-service
+    pull_policy: never
+    env_file:
+      - ./pacages/database/.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: /bin/sh -c "npx prisma migrate deploy && tail -f /dev/null"
+    volumes:
+      - shared-db:/app/db
+    restart: "no"
+
+  user-service:
+    build:
+      context: ./packages/service-user
+      dockerfile: Dockerfile
+      target: development
+    image: user-service:${TAG}
+    container_name: user-service
+    environment:
+      DATABASE_URL: postgresql://postgres:root@host.docker.internal:5432/testmicro?schema=public
+      HOST: 0.0.0.0
+      PORT: 4001
+    ports:
+      - "4001:4001"
+    volumes:
+      - shared-db:/app/db # shared prisma folder
+      - shared_data:/app/shared # shared libs/middleware
+      # ⚠️ no local ./src mount — your code is already inside the image
+    command: >
+      /bin/sh -c "
+        echo 'Waiting for database-service to be ready...' &&
+        sleep 10 &&
+        echo 'Installing shared DB and dependencies...' &&
+        npm install &&
+        npm install ./db || echo 'No DB package to install' &&
+        if [ -f ./shared/middleware/package.json ]; then
+          echo 'Installing shared middleware...' &&
+          npm install ./shared/middleware;
+        else
+          echo '⚠️ No middleware package.json found, skipping...';
+        fi &&
+        echo 'Starting user service...' &&
+        npm install zod &&
+        npm run dev
+      "
+    depends_on:
+      - database-service
+    restart: "no"
+
+volumes:
+  shared-db:
+  shared_data:
+    external: true
