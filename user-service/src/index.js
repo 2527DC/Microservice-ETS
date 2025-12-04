@@ -74,7 +74,7 @@ const HOST = process.env.HOST || "localhost";
 
 (async () => {
   try {
-    console.log("🧩 Checking database connection...");
+    console.log("🧩 Checking database connection... ");
     await prisma.$connect();
     console.log("✅ Database connected successfully!");
 
