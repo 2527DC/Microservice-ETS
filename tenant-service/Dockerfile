@@ -1,60 +1,26 @@
 
-FROM node:23-alpine AS base
+FROM node:23.9.0-alpine AS base
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY tenant-service/package*.json ./tenant-service/
 
-# Copy local packages BEFORE npm install so npm can resolve file: dependencies
-COPY database/db ./database/db
-
-# Install ALL deps (dev + prod), including local packages
-
-# Copy service code
-WORKDIR /app/tenant-service
-RUN npm install
-COPY tenant-service ./
-
-COPY shared/tenantServices ./shared/tenantServices
+COPY database/db         ./database/db
+COPY user-service/package*.json   ./user-service/
 
 
-########################
-# DEV IMAGE
-########################
-FROM base AS dev
-EXPOSE 4002
-WORKDIR /app/tenant-service
+FROM base as dev 
+EXPOSE 4003
+WORKDIR /app/user-service
+RUN npm i 
+COPY user-service/ ./
 CMD ["npm", "run", "dev"]
 
 
-########################
-# BUILDER IMAGE (PROD BUILD)
-########################
-FROM node:23-alpine AS builder
-WORKDIR /app
-
-# Copy package.json and lock file
-COPY tenant-service/package*.json ./
-
-# Copy local packages BEFORE npm install
-COPY database/db ./database/db
-
-# Install only production dependencies
+FROM base as production
+EXPOSE 4003
+WORKDIR /app/user-service
 RUN npm ci --only=production
-
-# Copy service code and tenantServices
-COPY tenant-service ./
-COPY shared/tenantServices ./shared/tenantServices
-
-
-########################
-# PRODUCTION IMAGE
-########################
-FROM node:23-alpine AS production
-WORKDIR /app
-
-# Copy everything from builder
-COPY --from=builder /app ./
-
-EXPOSE 4002
+COPY user-service/ ./
 CMD ["npm", "run", "start"]
+
+
+

@@ -4,36 +4,36 @@ services:
       context: .
       dockerfile: user-service/Dockerfile
       target: dev
-    image: user-service:dev
+    image: chethan2527/user-service:dev
     container_name: user-service-dev
     ports:
       - "4001:4001"
     environment:
-      DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
+      DATABASE_URL: "postgresql://postgres.tphxxgjucqmiafdyopif:Chethan@123@aws-1-ap-south-1.pooler.supabase.com:6543/postgres"
       HOST: 0.0.0.0
 
-  tennat-service:
-    build:
-      context: .
-      dockerfile: tenant-service/Dockerfile
-      target: dev
-    image: tenant-service:dev
-    container_name: tenant-service-dev
-    ports:
-      - "4002:4002"
-    environment:
-      DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
-      HOST: 0.0.0.0
+  # tennat-service:
+  #   build:
+  #     context: .
+  #     dockerfile: tenant-service/Dockerfile
+  #     target: dev
+  #   image: tenant-service:dev
+  #   container_name: tenant-service-dev
+  #   ports:
+  #     - "4002:4002"
+  #   environment:
+  #     DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
+  #     HOST: 0.0.0.0
 
-  fleet-services:
-    build:
-      context: .
-      dockerfile: fleet-service/Dockerfile
-      target: dev
-    image: fleet-service-dev
-    container_name: fleet-service-dev
-    ports:
-      - "4003:4003"
-    environment:
-      DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
-      HOST: 0.0.0.0
+  # fleet-services:
+  #   build:
+  #     context: .
+  #     dockerfile: fleet-service/Dockerfile
+  #     target: dev
+  #   image: fleet-service-dev
+  #   container_name: fleet-service-dev
+  #   ports:
+  #     - "4003:4003"
+  #   environment:
+  #     DATABASE_URL: "postgresql://postgres:root@host.docker.internal:5432/microdb?schema=public"
+  #     HOST: 0.0.0.0

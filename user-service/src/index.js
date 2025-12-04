@@ -18,7 +18,7 @@ app.use(
 
 app.get("/health", async (req, res) => {
   try {
-    await prisma.$queryRaw`SELECT 1`; // Lightweight query to verify DB connection
+    await prisma.$queryRaw`SELECT 1`;
     res.status(200).json({
       success: true,
       message: "User service is healthy and connected to DB!",
@@ -74,7 +74,7 @@ const HOST = process.env.HOST || "localhost";
 
 (async () => {
   try {
-    console.log("🧩 Checking database connection...");
+    console.log("🧩 Checking database connection... ");
     await prisma.$connect();
     console.log("✅ Database connected successfully!");
 
