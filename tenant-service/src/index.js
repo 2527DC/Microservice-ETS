@@ -7,7 +7,6 @@ app.use(express.json());
 
 app.use("/api/tenants", tenantRouter);
 
-// ✅ Check DB connection before starting server
 const PORT = process.env.PORT || 4002;
 const HOST = process.env.HOST || "localhost";
 (async () => {
